@@ -28,7 +28,6 @@ public class IdentityService
         }
         lock (_contextLock)
         {
-            _context.
             foreach (Aspnetuserclaim aspnetuserclaim in _context.Aspnetuserclaims.Where(c => c.UserId == uid))
             {
                 claims.Add(new Claim(aspnetuserclaim.Claimtype, aspnetuserclaim.Claimvalue));
