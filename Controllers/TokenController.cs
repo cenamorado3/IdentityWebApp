@@ -17,9 +17,21 @@ public class TokenController : Controller
     }
 
     private readonly TokenService _ts;
-    [HttpGet(Name = "GetToken")]
-    public async Task<IActionResult> GetToken()
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetToken(string userId)
     {
-        return Json(new Token(await _ts.IssueToken()));
+
+        string token = await _ts.IssueToken(userId);
+        if (token == "UNAUTHORIZED")
+        {
+            return Unauthorized();
+        }
+        return Json(new Token(token));
+    }
+    
+    [HttpGet("decode/{token}")]
+    public async Task<IActionResult> DecodeToken(string token)
+    {
+        return Json(await _ts.Decrypt(token));
     }
 }

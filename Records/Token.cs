@@ -1,3 +1,3 @@
 namespace WebApplication1.Records;
 
-public record Token(string token);
+public record Token(string Bearer);
