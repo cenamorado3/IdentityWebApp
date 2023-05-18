@@ -12,7 +12,6 @@
 /dataSources/
 /dataSources.local.xml
 
-../../bin
 ../../obj
 ../../appsettings.Development.json
 ../../appsettings.json
