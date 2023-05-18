@@ -22,12 +22,6 @@ public class TokenService
         return Task.Run(() =>
         {
             List<Claim> userClaims= _is.GetUserClaims(userId);
-            if (userClaims.Count <= 0)
-            {
-                return "UNAUTHORIZED";
-            }
-            
-            
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes("12345678901234567890123456789012345678901234567890"));//(_config["Jwt:Key"]));
             SigningCredentials credentials = new (securityKey, SecurityAlgorithms.HmacSha256);
 

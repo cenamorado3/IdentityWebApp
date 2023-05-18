@@ -4,7 +4,7 @@ using Microsoft.Identity.Web.Resource;
 
 namespace WebApplication1.Controllers;
 
-[Authorize]
+[Authorize(Policy = "API")]
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
