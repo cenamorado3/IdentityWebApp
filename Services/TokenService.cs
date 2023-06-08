@@ -44,7 +44,7 @@ public class TokenService
     }
     public async Task<string> IssueTokenProcedure(string userId)//this should validate identity before authenticating
     {
-        DataSet set = await _beepbeep.ExecuteCommand(SpRocket.CallUserByIdProc);
+        DataSet set = await _beepbeep.ExecuteCommand(SpRocket.CallUserByIdProc, new List<string>() {userId});
         List<Claim> claims = new();
         foreach (DataTable dt in set.Tables)
         {

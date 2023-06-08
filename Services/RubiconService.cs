@@ -49,7 +49,7 @@ public class RubiconService : IRubiconService//because I can
     /// <param name="command"></param>
     /// <returns></returns>
     /// <exception cref="SecurityException"></exception>
-    public async Task<DataSet> ExecuteCommand(SpRocket command)
+    public async Task<DataSet> ExecuteCommand(SpRocket routine, List<string> queryParams)
     {
         await Open();
         if (_con is null)
@@ -58,8 +58,7 @@ public class RubiconService : IRubiconService//because I can
         }
 
         //this pretty bad since Postgres does not truly have a concept of stored procedures, rather "routines", where a function attempts to do the same, albeit, poorly.
-        NpgsqlCommand commandCon = _con.CreateCommand();
-        commandCon.CommandText = SpRocketCommands.GetCommand(command);
+        NpgsqlCommand commandCon =  SpRocketCommands.GetCommand(routine, _con.CreateCommand(), queryParams);
         List<Claim> claims = new();
         NpgsqlDataAdapter handle = new(commandCon);
         DataSet set = new();
@@ -81,16 +80,17 @@ public enum SpRocket
 
 public static class SpRocketCommands
 {
-    public static string GetCommand(SpRocket command)
+    public static NpgsqlCommand GetCommand(SpRocket routine, NpgsqlCommand command, List<string> queryParams)
     {
-        switch (command)
+        switch (routine)
         {
             case SpRocket.GetUserById:
-                return "";
+                return command;
             case SpRocket.CallUserByIdProc:
-                return "CALL get_user_proc(2);FETCH ALL FROM user_cursor;";
+                command.CommandText = string.Format("CALL get_user_proc({0});FETCH ALL FROM user_cursor;", queryParams[0]);//disgusting riff
+                return command;
             default:
-                throw new NotImplementedException($"The specified SpRocket command {command} does not exist. Ensure the drive chain is connected with the respective database.");
+                throw new NotImplementedException($"The specified SpRocket command {routine} does not exist. Ensure the drive chain is connected with the respective database.");
         }
     }
 }

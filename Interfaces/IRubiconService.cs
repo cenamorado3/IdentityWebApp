@@ -5,5 +5,5 @@ namespace WebApplication1.Interfaces;
 
 public interface IRubiconService
 {
-    public Task<DataSet> ExecuteCommand(SpRocket command);
+    public Task<DataSet> ExecuteCommand(SpRocket command, List<string> queryParams);
 }
