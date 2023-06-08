@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Configuration;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApplication1.Identity
 {

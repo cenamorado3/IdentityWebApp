@@ -1,17 +1,13 @@
 using System.Text;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using Microsoft.Extensions.Options;
-using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-using Npgsql;
 using WebApplication1.Identity;
 using WebApplication1.Services;
+using WebApplication1.ServiceRegistration;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -79,11 +75,13 @@ builder.Services.AddDbContext<play_testingContext>(opts =>
 });
 
 
+builder.Services.AddOptions();
+
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<IdentityService>();
+builder.Services.AddRubiconService(builder.Configuration.GetSection("RubiconService"));
 
-
-var app = builder.Build();
+    var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

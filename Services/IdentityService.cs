@@ -1,10 +1,5 @@
-
-using System;
 using System.Security.Claims;
-using WebApplication1.Records;
 using WebApplication1.Identity;
-
-using System.Collections.Generic;
 
 namespace WebApplication1.Services;
 
@@ -32,6 +27,7 @@ public class IdentityService
             {
                 claims.Add(new Claim(aspnetuserclaim.Claimtype, aspnetuserclaim.Claimvalue));
             }
+            
             return claims;
         }
     }
